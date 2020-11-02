@@ -19,5 +19,8 @@
   "homepage": "https://github.com/AC15/DNN-Pong-From-Pixels#readme",
   "devDependencies": {
     "parcel-bundler": "^1.12.4"
+  },
+  "dependencies": {
+    "@tensorflow/tfjs-node": "^2.7.0"
   }
 }
