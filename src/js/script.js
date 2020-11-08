@@ -1,5 +1,7 @@
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
+const canvasDownscaled = document.getElementById('canvasDownscaled');
+const contextDownscaled = canvasDownscaled.getContext('2d');
 const paddleHeight = 45;
 const paddleWidth = 10;
 const paddleSpeed = 5;
@@ -8,6 +10,7 @@ const ballSpeedIncrement = 0.2;
 const winningScore = 11;
 const aiHandicap = 0.12;
 const fps = 60;
+let skipFrame = false;
 let upKeyPressed = false;
 let downKeyPressed = false;
 
@@ -157,6 +160,12 @@ function update() {
   moveAiPaddle();
   paddleCollision();
   display();
+
+  if (skipFrame) {
+    drawResizedCanvas();
+  }
+
+  skipFrame = !skipFrame;
 }
 
 window.addEventListener('keydown', function (e) {
@@ -182,3 +191,29 @@ window.addEventListener('keyup', function (e) {
 });
 
 setInterval(update, 1000 / fps);
+
+function drawResizedCanvas() {
+  const resizeFactor = 0.2;
+  const resizeWidth = canvas.width * resizeFactor;
+  const resizeHeight = canvas.height * resizeFactor;
+
+  createImageBitmap(canvas, {
+    resizeWidth: resizeWidth,
+    resizeHeight: resizeHeight,
+    resizeQuality: 'high',
+  }).then((imageBitmap) => contextDownscaled.drawImage(imageBitmap, 0, 0));
+
+  canvasDownscaled.width = resizeWidth;
+  canvasDownscaled.height = resizeHeight;
+}
+
+function getPixels() {
+  // raw RGBA pixel data
+  const rawPixels = contextDownscaled.getImageData(0, 0, canvasDownscaled.width, canvasDownscaled.height).data;
+  // pixels that are either white (true) or black (false)
+  const binaryPixels = [];
+
+  for (let i = 0; i < rawPixels.length; i += 4) {
+    binaryPixels.push(rawPixels[i] > 0);
+  }
+}
