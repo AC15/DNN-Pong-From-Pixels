@@ -2,15 +2,17 @@ const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
 const canvasDownscaled = document.getElementById('canvasDownscaled');
 const contextDownscaled = canvasDownscaled.getContext('2d');
-const paddleHeight = 45;
-const paddleWidth = 10;
-const paddleSpeed = 5;
-const ballSpeed = 5;
+const paddleHeight = 20;
+const paddleWidth = 4;
+const paddleSpeed = 3;
+const ballRadius = 2;
+const ballSpeed = 2.5;
 const ballSpeedIncrement = 0.2;
 const winningScore = 11;
 const aiHandicap = 0.12;
 const fps = 60;
 const showScore = false;
+const resizeFactor = 0.1;
 let skipFrame = false;
 let upKeyPressed = false;
 let downKeyPressed = false;
@@ -36,7 +38,7 @@ const ai = {
 const ball = {
   x: canvas.width / 2,
   y: canvas.height / 2,
-  radius: 5,
+  radius: ballRadius,
   speed: ballSpeed,
   velocityX: 5,
   velocityY: 5,
@@ -196,7 +198,6 @@ window.addEventListener('keyup', function (e) {
 setInterval(update, 1000 / fps);
 
 function drawResizedCanvas() {
-  const resizeFactor = 0.2;
   const resizeWidth = canvas.width * resizeFactor;
   const resizeHeight = canvas.height * resizeFactor;
 
@@ -219,4 +220,6 @@ function getPixels() {
   for (let i = 0; i < rawPixels.length; i += 4) {
     binaryPixels.push(rawPixels[i] > 0);
   }
+
+  return binaryPixels;
 }
