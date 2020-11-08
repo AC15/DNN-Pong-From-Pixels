@@ -10,6 +10,7 @@ const ballSpeedIncrement = 0.2;
 const winningScore = 11;
 const aiHandicap = 0.12;
 const fps = 60;
+const showScore = false;
 let skipFrame = false;
 let upKeyPressed = false;
 let downKeyPressed = false;
@@ -67,8 +68,10 @@ function display() {
   displayBackground();
   context.fillStyle = '#fff';
   displayLine();
-  displayScore(canvas.width / 4, canvas.height / 4, player.score);
-  displayScore(3 * (canvas.width / 4) - 35, canvas.height / 4, ai.score);
+  if (showScore) {
+    displayScore(canvas.width / 4, canvas.height / 4, player.score);
+    displayScore(3 * (canvas.width / 4) - 35, canvas.height / 4, ai.score);
+  }
   displayPaddle(player);
   displayPaddle(ai);
   displayBall();
