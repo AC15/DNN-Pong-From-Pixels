@@ -26,7 +26,7 @@
 
 import * as tf from '@tensorflow/tfjs';
 
-import BaseController from '../base_controller';
+import BaseController from './base_controller';
 import ReplayMemory from './replay_memory';
 import VisualDQN from './visual_dqn';
 

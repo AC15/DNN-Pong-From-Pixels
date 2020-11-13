@@ -42,8 +42,8 @@ const maskedHuberLoss = (labels, predictions) =>
 export default class VisualDQN {
   constructor(options) {
     options = {
-      inputWidth: 240,
-      inputHeight: 180,
+      inputWidth: 210,
+      inputHeight: 160,
       nConvLayers: 2,
       kernelSize: 3,
       nFilters: 40,

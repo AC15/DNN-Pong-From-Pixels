@@ -1,3 +1,5 @@
+import VisualDQLController from './visual_dql_controller';
+
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
 const canvasDownscaled = document.getElementById('canvasDownscaled');

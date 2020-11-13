@@ -1,5 +1,5 @@
 {
-  "name": "dnn-pong-from-pixels",
+  "name": "dqn-pong-from-pixels",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,20 +7,26 @@
     "start": "parcel src/index.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "browserslist": [
+    "since 2019-01"
+  ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AC15/DNN-Pong-From-Pixels.git"
+    "url": "git+https://github.com/AC15/DQN-Pong-From-Pixels.git"
   },
   "author": "Aleksander Czarnowski",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/AC15/DNN-Pong-From-Pixels/issues"
+    "url": "https://github.com/AC15/DQN-Pong-From-Pixels/issues"
   },
-  "homepage": "https://github.com/AC15/DNN-Pong-From-Pixels#readme",
+  "homepage": "https://github.com/AC15/DQN-Pong-From-Pixels#readme",
   "devDependencies": {
     "parcel-bundler": "^1.12.4"
   },
   "dependencies": {
-    "@tensorflow/tfjs-node": "^2.7.0"
+    "@babel/runtime-corejs2": "^7.8.3",
+    "@tensorflow/tfjs": "^2.7.0",
+    "@tensorflow/tfjs-node": "^2.7.0",
+    "lodash": "^4.17.15"
   }
 }
