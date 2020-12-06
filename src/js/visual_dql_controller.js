@@ -48,8 +48,8 @@ export default class VisualDQLController extends BaseController {
       ...(options || {}),
     };
     options.modelOptions = {
-      inputWidth: 240 / 10,
-      inputHeight: 180 / 10,
+      inputWidth: 210 / 10,
+      inputHeight: 160 / 10,
       nConvLayers: 2,
       kernelSize: 3,
       nFilters: 30,
@@ -177,6 +177,10 @@ export default class VisualDQLController extends BaseController {
   // Select action given state
   async selectAction(state) {
     const reward = this.getReward(state);
+
+    if (reward === -1 || reward === 1) {
+      console.info('Reward:', reward);
+    }
 
     if (this.previousState) {
       // Remember this transition so we can learn from it:

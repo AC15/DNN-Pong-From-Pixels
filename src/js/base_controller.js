@@ -52,8 +52,6 @@ export default class BaseController {
   // eslint-disable-next-line no-unused-vars
   async selectAction(state) {}
 
-  async onMatchStart() {}
-
   // Called when the match ends. Won is whether this player won or not.
   // eslint-disable-next-line no-unused-vars
   async onMatchEnd(won) {}
