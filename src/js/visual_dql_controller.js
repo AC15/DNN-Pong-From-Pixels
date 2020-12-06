@@ -260,7 +260,13 @@ export default class VisualDQLController extends BaseController {
 
     // Train model a few times since the default values get updated in each step
     this.model.setLearningRate(this.lr);
-    for (let i = 0; i < this.trainingIterations; i++) await this.trainModel();
+    for (let i = 0; i < this.trainingIterations; i++) {
+      tf.engine().startScope();
+      await this.trainModel();
+      tf.engine().endScope();
+    }
+
+    console.info(tf.memory());
 
     // Decay learning rate and epsilon:
     this.lr *= this.lrDecay;
