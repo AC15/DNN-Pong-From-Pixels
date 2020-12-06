@@ -4,14 +4,14 @@ const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
 const canvasDownscaled = document.getElementById('canvasDownscaled');
 const contextDownscaled = canvasDownscaled.getContext('2d');
-const paddleHeight = 30;
-const paddleWidth = 6;
+const paddleHeight = 40;
+const paddleWidth = 8;
 const paddleSpeed = 3;
 const paddleInitialY = canvas.height / 2 - paddleHeight / 2;
-const ballRadius = 3;
+const ballRadius = 4;
 const ballSpeed = 2.5;
 const ballSpeedIncrement = 0.2;
-const aiHandicap = 0.07;
+const aiHandicap = 0.05;
 const fps = 25;
 const showScore = false;
 const resizeFactor = 0.1;
@@ -49,8 +49,8 @@ const ball = {
   y: canvas.height / 2,
   radius: ballRadius,
   speed: ballSpeed,
-  velocityX: 5,
-  velocityY: 5,
+  velocityX: player.direction * ballSpeed * Math.cos(Math.PI / 4),
+  velocityY: ballSpeed * Math.sin(Math.PI / 4),
 };
 
 function displayBackground() {
