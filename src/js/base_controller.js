@@ -35,18 +35,6 @@ export default class BaseController {
     this.isVisual = false;
   }
 
-  // Create a mirrored controller of this controller for self-play.
-  // For RL agents, make sure this also links the underlying models.
-  mirrorController(options) {
-    let leftOrRight = 'right';
-    if (this.leftOrRight === 'right') this.leftOrRight = 'left';
-    options = {
-      ...this.options,
-      ...(options || {}),
-    };
-    return new this.constructor(leftOrRight, options);
-  }
-
   // Given the current game state, should return
   // 1 (down), -1 (up) or 0 (nothing)
   // eslint-disable-next-line no-unused-vars

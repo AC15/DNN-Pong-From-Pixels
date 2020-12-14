@@ -75,21 +75,6 @@ export default class VisualDQLController extends BaseController {
     this.isVisual = true;
   }
 
-  // Create a mirrored controller of this controller for self-play.
-  // Shares the underlying replay memory and model.
-  mirrorController(options) {
-    let leftOrRight = 'right';
-    if (this.leftOrRight === 'right') this.leftOrRight = 'left';
-    options = {
-      ...this.options,
-      replayMemory: this.replayMemory,
-      model: this.model,
-      trainingIterations: 0,
-      ...(options || {}),
-    };
-    return new this.constructor(leftOrRight, options);
-  }
-
   // Return the reward for the given state. Simple: +1 when we win, -1 when we lose.
   getReward(state) {
     if (state.winner === this.leftOrRight) return 1;
