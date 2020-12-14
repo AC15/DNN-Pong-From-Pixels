@@ -23,6 +23,9 @@ let controllerFrameInterval = 3; // 25 FPS / 3 = 8 updates per second
 let upKeyPressed = false;
 let downKeyPressed = false;
 let matchCounter = 0;
+let matchFrameLength = 0;
+let matchesWon = 0;
+let matchesLost = 0;
 
 const player = {
   x: paddleWidth,
@@ -163,8 +166,10 @@ async function playerMovement() {
 
 function getWinner() {
   if (ball.x + ball.radius >= canvas.width) {
+    matchesWon += 1;
     return 'left';
   } else if (ball.x - ball.radius <= 0) {
+    matchesLost += 1;
     return 'right';
   }
 }
@@ -222,6 +227,7 @@ async function update() {
   display();
 
   currentFrame += 1;
+  matchFrameLength += 1;
 
   if (skipFrame) {
     drawResizedCanvas();
@@ -302,8 +308,16 @@ function roundStart() {
             reject(error);
           } else if (hasMatchEnded) {
             matchCounter++;
-            console.info(`Match ${matchCounter} has Ended`);
+            let matchLength = new Date(matchFrameLength * 40).getSeconds();
+            let averageMatchLength = new Date((currentFrame / matchCounter) * 40).getSeconds();
+            let winRatio = (matchesWon / matchCounter) * 100;
+            console.info(
+              `Match: ${matchCounter}. Length: ${matchLength}s Avg: ${averageMatchLength}s. Ratio: ${matchesWon}/${matchesLost} ${winRatio.toFixed(
+                2
+              )}%`
+            );
             hasMatchEnded = false;
+            matchFrameLength = 0;
             clearInterval(updateInterval);
             leftController.onMatchEnd(player.isWinner); // right controller doesn't exist
             roundStart();
