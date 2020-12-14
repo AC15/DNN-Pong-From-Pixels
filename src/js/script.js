@@ -6,12 +6,12 @@ const canvasDownscaled = document.getElementById('canvasDownscaled');
 const contextDownscaled = canvasDownscaled.getContext('2d');
 const paddleHeight = 40;
 const paddleWidth = 8;
-const paddleSpeed = 3;
+const paddleSpeed = 4.5;
 const paddleInitialY = canvas.height / 2 - paddleHeight / 2;
 const ballRadius = 4;
-const ballSpeed = 2.5;
-const ballSpeedIncrement = 0.2;
-const aiHandicap = 0.05;
+const ballSpeed = 3.75;
+const ballSpeedIncrement = 0.25;
+const aiHandicap = 0.08;
 const fps = 25;
 const showScore = false;
 const resizeFactor = 0.1;
@@ -19,7 +19,7 @@ let hasMatchEnded = false;
 let skipFrame = false;
 let leftController = new VisualDQLController('left');
 let currentFrame = 0;
-let controllerFrameInterval = 5; // 25 FPS / 5 = 5 updates per second
+let controllerFrameInterval = 3; // 25 FPS / 3 = 8 updates per second
 let upKeyPressed = false;
 let downKeyPressed = false;
 let matchCounter = 0;
@@ -106,8 +106,13 @@ function newRound(loserPaddle, winnerPaddle) {
   ball.x = canvas.width / 2;
   ball.y = canvas.height / 2;
   ball.speed = ballSpeed;
-  ball.velocityX *= -1;
-  ball.velocityY *= -1;
+
+  let xDirection = ball.velocityX < 0 ? 1 : -1;
+  let yDirection = ball.velocityY < 0 ? 1 : -1;
+  let angle = Math.random() >= 0.5 ? 4 : 6;
+
+  ball.velocityX = player.direction * ballSpeed * Math.cos(Math.PI / angle) * xDirection;
+  ball.velocityY = ballSpeed * Math.sin(Math.PI / angle) * yDirection;
 }
 
 function collisionDetection(paddle, ball) {
@@ -190,11 +195,17 @@ function paddleCollision() {
 
   if (collisionDetection(paddle, ball)) {
     let angle = 0;
+    let dividedPaddle = paddle.height / 4;
+    let truePaddleY = paddle.y + dividedPaddle * 2;
 
-    if (ball.y < paddle.y + paddle.height / 2) {
+    if (ball.y < truePaddleY - dividedPaddle) {
       angle = -Math.PI / 4; // -45deg
-    } else if (ball.y > paddle.y + paddle.height / 2) {
+    } else if (ball.y < truePaddleY) {
+      angle = -Math.PI / 6; // -30deg
+    } else if (ball.y > truePaddleY + dividedPaddle) {
       angle = Math.PI / 4; // 45deg
+    } else if (ball.y > truePaddleY) {
+      angle = Math.PI / 6; // 30deg
     }
 
     ball.velocityX = paddle.direction * ball.speed * Math.cos(angle);

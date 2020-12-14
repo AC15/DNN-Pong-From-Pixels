@@ -178,10 +178,6 @@ export default class VisualDQLController extends BaseController {
   async selectAction(state) {
     const reward = this.getReward(state);
 
-    if (reward === -1 || reward === 1) {
-      console.info('Reward:', reward);
-    }
-
     if (this.previousState) {
       // Remember this transition so we can learn from it:
       this.replayMemory.push(this.leftOrRight, this.previousState, this.previousAction, state, reward);
