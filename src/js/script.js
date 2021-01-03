@@ -26,6 +26,7 @@ let matchCounter = 0;
 let matchFrameLength = 0;
 let matchesWon = 0;
 let matchesLost = 0;
+let matchesInformation = [];
 
 const player = {
   x: paddleWidth,
@@ -308,14 +309,25 @@ function roundStart() {
             reject(error);
           } else if (hasMatchEnded) {
             matchCounter++;
-            let matchLength = new Date(matchFrameLength * 40).getSeconds();
-            let averageMatchLength = new Date((currentFrame / matchCounter) * 40).getSeconds();
+            let msUpdateFrequency = 1000 / fps;
+            let matchLength = new Date(matchFrameLength * msUpdateFrequency).getSeconds();
+            let averageMatchLength = new Date((currentFrame / matchCounter) * msUpdateFrequency).getSeconds();
             let winRatio = (matchesWon / matchCounter) * 100;
-            console.info(
-              `Match: ${matchCounter}. Length: ${matchLength}s Avg: ${averageMatchLength}s. Ratio: ${matchesWon}/${matchesLost} ${winRatio.toFixed(
-                2
-              )}%`
-            );
+
+            let matchInformation = {
+              match: matchCounter,
+              length: matchLength,
+              averageLength: averageMatchLength,
+              ratio: winRatio.toFixed(2),
+              won: matchesWon,
+              lost: matchesLost,
+            };
+
+            console.log(matchInformation);
+
+            matchesInformation.push(matchInformation);
+            localStorage.matchesInformation = JSON.stringify(matchesInformation);
+
             hasMatchEnded = false;
             matchFrameLength = 0;
             clearInterval(updateInterval);
