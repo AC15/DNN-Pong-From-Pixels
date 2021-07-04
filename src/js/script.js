@@ -15,6 +15,7 @@ const aiHandicap = 0.08;
 const fps = 25;
 const showScore = false;
 const resizeFactor = 0.1;
+let timestamp = new Date();
 let hasMatchEnded = false;
 let skipFrame = false;
 let leftController = new VisualDQLController('left');
@@ -321,12 +322,14 @@ function roundStart() {
               ratio: winRatio.toFixed(2),
               won: matchesWon,
               lost: matchesLost,
+              reward: matchesWon - matchesLost,
             };
 
             console.log(matchInformation);
 
             matchesInformation.push(matchInformation);
-            localStorage.matchesInformation = JSON.stringify(matchesInformation);
+            // Saves the match information as JSON to localstorage. The name contains a datetime in UTC time
+            localStorage.setItem(`match-${timestamp.toISOString()}`, JSON.stringify(matchesInformation));
 
             hasMatchEnded = false;
             matchFrameLength = 0;
