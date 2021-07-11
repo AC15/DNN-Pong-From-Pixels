@@ -15,7 +15,6 @@ const aiHandicap = 0.08;
 const fps = 25;
 const showScore = false;
 const resizeFactor = 0.1;
-let timestamp = new Date();
 let hasMatchEnded = false;
 let skipFrame = false;
 let leftController = new VisualDQLController('left');
@@ -329,7 +328,7 @@ function roundStart() {
 
             matchesInformation.push(matchInformation);
             // Saves the match information as JSON to localstorage. The name contains a datetime in UTC time
-            localStorage.setItem(`match-${timestamp.toISOString()}`, JSON.stringify(matchesInformation));
+            localStorage.setItem(`${leftController.timestamp.toISOString()}-match`, JSON.stringify(matchesInformation));
 
             hasMatchEnded = false;
             matchFrameLength = 0;

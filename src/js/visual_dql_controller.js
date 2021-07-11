@@ -73,6 +73,7 @@ export default class VisualDQLController extends BaseController {
     this.epsilon = this.epsilonInit;
 
     this.isVisual = true;
+    this.timestamp = new Date();
   }
 
   // Return the reward for the given state. Simple: +1 when we win, -1 when we lose.
@@ -246,6 +247,8 @@ export default class VisualDQLController extends BaseController {
       await this.trainModel();
       tf.engine().endScope();
     }
+
+    await this.model.model.save(`localstorage://${this.timestamp.toISOString()}-dqn-pong-model`);
 
     console.info(tf.memory());
 
