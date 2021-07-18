@@ -1,20 +1,23 @@
 import VisualDQLController from './visual_dql_controller';
 
+// Customisable Parameters
+const paddleHeight = 40; // Height of the paddles
+const paddleSpeed = 4.5; // Speed of the paddles
+const ballSpeed = 3.75; // Initial speed of the ball
+const ballSpeedIncrement = 0.25; // Speed increment of the ball after every bounce
+const aiSpeedHandicap = 0.08; // Speed handicap of the AI paddle
+const canvasResizeFactor = 0.1; // Percentage size of the downscaled frame
+
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
 const canvasDownscaled = document.getElementById('canvasDownscaled');
 const contextDownscaled = canvasDownscaled.getContext('2d');
-const paddleHeight = 40;
-const paddleWidth = 8;
-const paddleSpeed = 4.5;
 const paddleInitialY = canvas.height / 2 - paddleHeight / 2;
-const ballRadius = 4;
-const ballSpeed = 3.75;
-const ballSpeedIncrement = 0.25;
-const aiHandicap = 0.08;
-const fps = 25;
 const showScore = false;
-const resizeFactor = 0.1;
+const fps = 25;
+const paddleWidth = 8; // Width of the paddles
+const ballRadius = 4; // Radius of the ball
+
 let hasMatchEnded = false;
 let skipFrame = false;
 let leftController = new VisualDQLController('left');
@@ -176,7 +179,7 @@ function getWinner() {
 }
 
 function moveAiPaddle() {
-  ai.y += (ball.y - (ai.y + ai.height / 2)) * aiHandicap;
+  ai.y += (ball.y - (ai.y + ai.height / 2)) * aiSpeedHandicap;
 }
 
 function ballCollision() {
@@ -238,8 +241,8 @@ async function update() {
 }
 
 function drawResizedCanvas() {
-  const resizeWidth = canvas.width * resizeFactor;
-  const resizeHeight = canvas.height * resizeFactor;
+  const resizeWidth = canvas.width * canvasResizeFactor;
+  const resizeHeight = canvas.height * canvasResizeFactor;
 
   createImageBitmap(canvas, {
     resizeWidth: resizeWidth,
@@ -324,7 +327,13 @@ function roundStart() {
               reward: matchesWon - matchesLost,
             };
 
-            console.log(matchInformation);
+            document.getElementById('match').innerText = matchInformation.match;
+            document.getElementById('length').innerText = matchInformation.length;
+            document.getElementById('averageLength').innerText = matchInformation.averageLength;
+            document.getElementById('winRatio').innerText = matchInformation.ratio;
+            document.getElementById('won').innerText = matchInformation.won;
+            document.getElementById('lost').innerText = matchInformation.lost;
+            document.getElementById('reward').innerText = matchInformation.reward;
 
             matchesInformation.push(matchInformation);
             // Saves the match information as JSON to localstorage. The name contains a datetime in UTC time
