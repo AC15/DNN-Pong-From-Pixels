@@ -15,6 +15,7 @@ const contextDownscaled = canvasDownscaled.getContext('2d');
 const paddleInitialY = canvas.height / 2 - paddleHeight / 2;
 const showScore = false;
 const fps = 25;
+const msUpdateFrequency = 1000 / fps;
 const paddleWidth = 8; // Width of the paddles
 const ballRadius = 4; // Radius of the ball
 
@@ -312,7 +313,6 @@ function roundStart() {
             reject(error);
           } else if (hasMatchEnded) {
             matchCounter++;
-            let msUpdateFrequency = 1000 / fps;
             let matchLength = new Date(matchFrameLength * msUpdateFrequency).getSeconds();
             let averageMatchLength = new Date((currentFrame / matchCounter) * msUpdateFrequency).getSeconds();
             let winRatio = (matchesWon / matchCounter) * 100;
@@ -346,7 +346,7 @@ function roundStart() {
             roundStart();
           }
         });
-    }, 1000 / fps);
+    }, msUpdateFrequency);
   });
 }
 
